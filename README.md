@@ -1,233 +1,89 @@
-<p align="center">
-    <a href="https://github.com/yiisoft" target="_blank">
-        <img src="https://avatars0.githubusercontent.com/u/993323" height="100px">
-    </a>
-    <h1 align="center">Yii 2 Basic Project Template</h1>
-    <br>
-</p>
-
-Yii 2 Basic Project Template is a skeleton [Yii 2](http://www.yiiframework.com/) application best for
-rapidly creating small projects.
-
-The template contains the basic features including user login/logout and a contact page.
-It includes all commonly used configurations that would allow you to focus on adding new
-features to your application.
-
-[![Latest Stable Version](https://img.shields.io/packagist/v/yiisoft/yii2-app-basic.svg)](https://packagist.org/packages/yiisoft/yii2-app-basic)
-[![Total Downloads](https://img.shields.io/packagist/dt/yiisoft/yii2-app-basic.svg)](https://packagist.org/packages/yiisoft/yii2-app-basic)
-[![build](https://github.com/yiisoft/yii2-app-basic/workflows/build/badge.svg)](https://github.com/yiisoft/yii2-app-basic/actions?query=workflow%3Abuild)
-
-DIRECTORY STRUCTURE
--------------------
-
-      assets/             contains assets definition
-      commands/           contains console commands (controllers)
-      config/             contains application configurations
-      controllers/        contains Web controller classes
-      mail/               contains view files for e-mails
-      models/             contains model classes
-      runtime/            contains files generated during runtime
-      tests/              contains various tests for the basic application
-      vendor/             contains dependent 3rd-party packages
-      views/              contains view files for the Web application
-      web/                contains the entry script and Web resources
-
-
-
-REQUIREMENTS
-------------
-
-The minimum requirement by this project template that your Web server supports PHP 5.6.0.
-
-
-INSTALLATION
-------------
-
-### Install via Composer
-
-If you do not have [Composer](http://getcomposer.org/), you may install it by following the instructions
-at [getcomposer.org](http://getcomposer.org/doc/00-intro.md#installation-nix).
-
-You can then install this project template using the following command:
-
-~~~
-composer create-project --prefer-dist yiisoft/yii2-app-basic basic
-~~~
-
-Now you should be able to access the application through the following URL, assuming `basic` is the directory
-directly under the Web root.
-
-~~~
-http://localhost/basic/web/
-~~~
-
-### Install from an Archive File
-
-Extract the archive file downloaded from [yiiframework.com](http://www.yiiframework.com/download/) to
-a directory named `basic` that is directly under the Web root.
-
-Set cookie validation key in `config/web.php` file to some random secret string:
-
-```php
-'request' => [
-    // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-    'cookieValidationKey' => '<secret random string goes here>',
-],
-```
-
-You can then access the application through the following URL:
-
-~~~
-http://localhost/basic/web/
-~~~
-
-
-### Install with Docker
-
-Update your vendor packages
-
-    docker-compose run --rm php composer update --prefer-dist
-    
-Run the installation triggers (creating cookie validation code)
-
-    docker-compose run --rm php composer install    
-    
-Start the container
-
-    docker-compose up -d
-    
-You can then access the application through the following URL:
-
-    http://127.0.0.1:8000
-
-**NOTES:** 
-- Minimum required Docker engine version `17.04` for development (see [Performance tuning for volume mounts](https://docs.docker.com/docker-for-mac/osxfs-caching/))
-- The default configuration uses a host-volume in your home directory `.docker-composer` for composer caches
-
-
-CONFIGURATION
--------------
-
-### Database
-
-Edit the file `config/db.php` with real data, for example:
-
-```php
-return [
-    'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=yii2basic',
-    'username' => 'root',
-    'password' => '1234',
-    'charset' => 'utf8',
-];
-```
-
-**NOTES:**
-- Yii won't create the database for you, this has to be done manually before you can access it.
-- Check and edit the other files in the `config/` directory to customize your application as required.
-- Refer to the README in the `tests` directory for information specific to basic application tests.
-
-
-TESTING
--------
-
-Tests are located in `tests` directory. They are developed with [Codeception PHP Testing Framework](http://codeception.com/).
-By default there are 3 test suites:
-
-- `unit`
-- `functional`
-- `acceptance`
-
-Tests can be executed by running
-
-```
-vendor/bin/codecept run
-```
-
-The command above will execute unit and functional tests. Unit tests are testing the system components, while functional
-tests are for testing user interaction. Acceptance tests are disabled by default as they require additional setup since
-they perform testing in real browser. 
-
-
-### Running  acceptance tests
-
-To execute acceptance tests do the following:  
-
-1. Rename `tests/acceptance.suite.yml.example` to `tests/acceptance.suite.yml` to enable suite configuration
-
-2. Replace `codeception/base` package in `composer.json` with `codeception/codeception` to install full featured
-   version of Codeception
-
-3. Update dependencies with Composer 
-
-    ```
-    composer update  
-    ```
-
-4. Download [Selenium Server](http://www.seleniumhq.org/download/) and launch it:
-
-    ```
-    java -jar ~/selenium-server-standalone-x.xx.x.jar
-    ```
-
-    In case of using Selenium Server 3.0 with Firefox browser since v48 or Google Chrome since v53 you must download [GeckoDriver](https://github.com/mozilla/geckodriver/releases) or [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/downloads) and launch Selenium with it:
-
-    ```
-    # for Firefox
-    java -jar -Dwebdriver.gecko.driver=~/geckodriver ~/selenium-server-standalone-3.xx.x.jar
-    
-    # for Google Chrome
-    java -jar -Dwebdriver.chrome.driver=~/chromedriver ~/selenium-server-standalone-3.xx.x.jar
-    ``` 
-    
-    As an alternative way you can use already configured Docker container with older versions of Selenium and Firefox:
-    
-    ```
-    docker run --net=host selenium/standalone-firefox:2.53.0
-    ```
-
-5. (Optional) Create `yii2basic_test` database and update it by applying migrations if you have them.
-
-   ```
-   tests/bin/yii migrate
-   ```
-
-   The database configuration can be found at `config/test_db.php`.
-
-
-6. Start web server:
-
-    ```
-    tests/bin/yii serve
-    ```
-
-7. Now you can run all available tests
-
-   ```
-   # run all available tests
-   vendor/bin/codecept run
-
-   # run acceptance tests
-   vendor/bin/codecept run acceptance
-
-   # run only unit and functional tests
-   vendor/bin/codecept run unit,functional
-   ```
-
-### Code coverage support
-
-By default, code coverage is disabled in `codeception.yml` configuration file, you should uncomment needed rows to be able
-to collect code coverage. You can run your tests and collect coverage with the following command:
-
-```
-#collect coverage for all tests
-vendor/bin/codecept run --coverage --coverage-html --coverage-xml
-
-#collect coverage only for unit tests
-vendor/bin/codecept run unit --coverage --coverage-html --coverage-xml
-
-#collect coverage for unit and functional tests
-vendor/bin/codecept run functional,unit --coverage --coverage-html --coverage-xml
-```
-
-You can see code coverage output under the `tests/_output` directory.
+Я проходила практику в ООО «DigitalWand» в период с 13.07.2021 г. по 26.07.2021 г.
+На практике моей задачей была разработка новостного портала с публикациями событий, которые произошли в мире, с возможностью регистрации и авторизации пользователей. Все публикации поделены на рубрики (категории). Новость (публикация, статья) состоит из названия, изображения, даты публикации, короткого комментария, рубрики и полного описания. На главной странице и на страницах рубрик отображаются только первые пять полей новости, а при переходе по ссылке на публикацию – еще и полное ее описание. Тематически сайт разделен на следующие разделы:
+-	главная страница: содержит информацию о сайте и последние статьи, есть страничная пагинация;
+-	рубрики: каждая рубрика содержит новости только своей категории;
+-	регистрация: форма с регистрацией пользователя;
+-	авторизация: форма входа для пользователей, у которых уже есть учетная запись.
+
+Для решения поставленной задачи мной был выбран PHP-фреймворк Yii2, реализующий MVC – схему разделения данных приложения. Фреймворк имеет высокую производительность относительно других фреймворков, написанных на PHP, поддерживает Bootstrap – набор инструментов для создания сайтов.  Платформой для создания локального сайта выступил OpenServer, включающий в себя СУБД MySQL и приложение PHPMyAdmin для администрирования базы данных. Средой разработки выступила 
+IDE PhpStorm.
+
+Структура базовой сборки фреймворка Yii2 имеет вид:
+-	assets/ – содержит подключения ресурсов css и js;
+-	commands/ – включает в себя консольные команды;
+-	config/ – директория с файлами конфигурации;
+-	controllers/ – папка для контроллеров;
+-	models/ – содержит модели;
+-	runtime/ – хранит файлы, возникшие во время работы сайта;
+-	tests/ – включает в себя тесты для приложений;
+-	vendor/ – содержит ядро Yii и библиотеки;
+-	views/layouts/ – хранит шаблоны;
+-	views/site/ – содержит файлы страниц сайта;
+-	web/ – папка со стилями, скриптами, изображениями и др.
+
+
+Для разработки новостного портала необходимо иметь базу новостей, которые должны отображаться на сайте. В БД под названием «yii2_mynews» я создала 3 таблицы:
+-	category – категории публикаций, например, политика, экономика, спорт и т.д.;
+-	post – публикация (новость);
+-	user – таблица данных пользователей.
+Чтобы подключить созданную базу данных к сайту, необходимо прописать путь к ней в конфигурационном файле config/web.php:
+
+    'dsn' => 'mysql:host=localhost;dbname=yii2_mynews'
+
+После создания базы я изучила архитектуру Model-View-Controller.
+Контроллеры являются компонентом схемы MVC. Они содержат в себе перечень действий, которые отвечают за обработку получаемых запросов и генерирование ответов на них. Приняв запрос на обработку, контроллеры анализируют входные данные, передают их в модели, затем в представления, где и должен отобразиться ответ на запрос.
+Для новостного сайта я написала контроллер PostController. Одноименный класс содержит методы, которые обрабатывают определенные адреса сайта, соответствующие определенным видам (представлениям). В контроллере прописаны 10 методов. Первый отвечает за контент главной страницы сайта, второй – за отображение каждой статьи на отдельной странице, следующие пять – за отображение статей, соответствующих выбранной пользователем категории (политика, экономика, наука, спорт, образование), восьмой – за страницу с регистрацией, девятый – за страницу с авторизацией, десятый позволяет авторизованному пользователю выйти из системы.
+
+Еще один компонент MVC – это модель. Она необходима для извлечения и манипуляций данными приложения. Модель реагирует на запросы, поступающие из контроллера.
+При разработке сайта мной были созданы следующие модели:
+-	User (пользователь);
+-	Signup (регистрация);
+-	Login (авторизация);
+-	Category (рубрика);
+-	Post (публикация).
+Эти модели содержат методы для работы с базой данных, правила валидации полей форм и т.д.
+
+Последний компонент MVC – это представление (вид). Представление ответственно за видимое пользователю отображение контента.
+В директории views/layouts я создала файл news.php, который является шаблоном сайта. Контент в этом файле отображается на всех страницах новостного портала. Файл содержит в себе общие данные – название сайта, язык документа, шапку страницы (header). Шапка включает в себя ссылку на главную страницу, ссылки на формы с регистрацией и авторизацией, ссылки на категории новостей.
+В директории views/post хранятся следующие представления:
+-	index.php – главная страница новостного портала;
+-	view.php – страница, на которой отображается отдельная выбранная публикация;
+-	politic.php – статьи с категорией политика;
+-	economy.php – новости с категорией экономика;
+-	science.php – статьи в рубрике наука;
+-	sport.php – публикации с категорией спорт;
+-	education.php – новости в рубрике образование;
+-	signup.php – страница с формой регистрации;
+-	login.php – страница с формой авторизации.
+
+Регистрация и авторизация осуществляются с помощью компонента yii\web\User, который управляет статусом аутентификации пользователя. Чтобы пользоваться этим компонентом, в модели User был реализован интерфейс yii\web\IdentityInterface.
+
+Данные, получаемые от пользователей, необходимо проверять. В фреймворке для валидации данных есть метод yii\base\Model::validate(). Чтобы им воспользоваться, я прописала свои правила проверки атрибутов.
+При регистрации пользователь обязан указать адрес электронной почты и пароль. Я прописала в правилах, что эти поля обязательны для заполнения. Поле почты проверяется на соответствие формату и на уникальность в базе (т.е. другого пользователя с таким же почтовым ящиком быть не должно). Пароль должен содержать от 4 до 20 символов.
+При авторизации поле почтового адреса проверяется на соответствие формату и на его наличие в базе данных. В случае нахождения этого адреса в базе проверяется соответствие введенного пароля и пароля, хранящегося в БД. Если ошибок нет, то пользователь вводится в сессию (т.е. он теперь авторизирован).
+Для безопасного хранения пароля в базе данных я использовала 
+хэш-функцию string sha1(). В ее основе лежит алгоритм US Secure Hash Algorithm 1. Функция принимает входную строку и создает 160-битное хэш-значение, отображаемое как шестнадцатеричное число длиной 40 цифр.
+
+
+В конфигурационном файле config/web.php необходимо указывать шаблон страниц, название веб-приложения и его язык, а также маршрут к главной странице по умолчанию:
+    'layout' => 'news',
+    'name' => 'Мировые новости',
+    'language' => 'ru',
+    'defaultRoute' => 'post/index'
+
+Все ссылки разработанного сайта являются ЧПУ (человекопонятными URL), т.е. такими URL, которые понятны пользователю. В файле config/web.php я прописала правила для ссылок:
+
+'rules' => [
+                'page/<page:\d+>' => 'post/index',
+                '/' => 'post/index',
+                'post/<id:\d+>' => 'post/view',
+                'page/politic' => 'post/politic',
+                'page/economy' => 'post/economy',
+                'page/science' => 'post/science',
+                'page/sport' => 'post/sport',
+                'page/education' => 'post/education',
+            ]
+
+Новостной портал имеет понятный, адаптивный и красивый интерфейс. В папке web/ хранятся стили, шрифты и скрипты сайта. Для создания компонентов веб-интерфейса я также использовала средства фреймворка Bootstrap.
+
+В результате прохождения практики поставленная задача была выполнена – разработан новостной портал с возможностью регистрации и авторизации пользователей. Был изучен PHP-фреймворк Yii2, получены навыки работы с OpenServer и СУБД MySQL, рассмотрен шаблон проектирования MVC. По завершении работы сайт был размещен на хостинге «Timeweb» и на веб-сервисе «GitHub».
